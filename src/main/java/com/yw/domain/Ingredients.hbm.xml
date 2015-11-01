@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 28, 2015 4:17:25 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping default-lazy="false">
+    <class name="com.yw.domain.Ingredients" table="ingredients" catalog="WTE">
+        <id name="iid" type="java.lang.Integer">
+            <column name="iid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" />
+        </property>
+        <set name="containses" table="contains" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="iid" />
+            </key>
+            <one-to-many class="com.yw.domain.Contains" />
+        </set>
+    </class>
+</hibernate-mapping>

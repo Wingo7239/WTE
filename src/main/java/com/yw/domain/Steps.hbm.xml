@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 28, 2015 4:17:25 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping default-lazy="false">
+    <class name="com.yw.domain.Steps" table="steps" catalog="WTE">
+        <id name="sid" type="java.lang.Integer">
+            <column name="sid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cuisine" class="com.yw.domain.Cuisine" fetch="select">
+            <column name="cid" not-null="true" />
+        </many-to-one>
+        <property name="description" type="string">
+            <column name="description" length="45" not-null="true" />
+        </property>
+        <property name="image" type="string">
+            <column name="image" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

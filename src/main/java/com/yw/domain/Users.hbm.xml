@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 28, 2015 4:17:25 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping default-lazy="false">
+    <class name="com.yw.domain.Users" table="users" catalog="WTE">
+        <id name="uid" type="java.lang.Integer">
+            <column name="uid" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="64" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="64" not-null="true" />
+        </property>
+        <property name="avatar" type="string">
+            <column name="avatar" length="64" />
+        </property>
+        <property name="birthday" type="java.util.Date">
+            <column name="birthday" length="19" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="45" not-null="true" />
+        </property>
+        <set name="cuisines" table="cuisine" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="uid" />
+            </key>
+            <one-to-many class="com.yw.domain.Cuisine" />
+        </set>
+    </class>
+</hibernate-mapping>

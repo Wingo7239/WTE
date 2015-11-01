@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 28, 2015 4:17:25 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping default-lazy="false">
+    <class name="com.yw.domain.Cuisine" table="cuisine" catalog="WTE">
+        <id name="cid" type="java.lang.Integer">
+            <column name="cid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="com.yw.domain.Users" fetch="select">
+            <column name="uid" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="64" not-null="true" />
+        </property>
+        <property name="image" type="string">
+            <column name="image" length="64" />
+        </property>
+        <set name="types" table="type" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.yw.domain.Type" />
+        </set>
+        <set name="containses" table="contains" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.yw.domain.Contains" />
+        </set>
+        <set name="stepses" table="steps" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="cid" not-null="true" />
+            </key>
+            <one-to-many class="com.yw.domain.Steps" />
+        </set>
+    </class>
+</hibernate-mapping>
