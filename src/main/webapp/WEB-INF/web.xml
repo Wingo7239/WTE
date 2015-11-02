@@ -12,6 +12,7 @@
         </listener-class>
   </listener>
   
+   <!-- Proxy Servlets -->
   <servlet>
    <servlet-name>user</servlet-name>
    <servlet-class>com.yw.proxy.UserServletProxy</servlet-class>
@@ -19,11 +20,27 @@
     <param-name>targetBean</param-name>
     <param-value>userAPI</param-value><!-- 注意这个值需要和spring的配置文件中的id对应 -->
    </init-param>
-</servlet>
-<servlet-mapping>
-   <servlet-name>user</servlet-name>
-   <url-pattern>/user</url-pattern>
-</servlet-mapping>
+	</servlet>
+	
+	
+	<servlet>
+   <servlet-name>cuisine</servlet-name>
+   <servlet-class>com.yw.proxy.CuisineServletProxy</servlet-class>
+   <init-param>
+    <param-name>targetBean</param-name>
+    <param-value>cuisineAPI</param-value><!-- 注意这个值需要和spring的配置文件中的id对应 -->
+   </init-param>
+	</servlet>
+	
+	
+	<servlet-mapping>
+   		<servlet-name>user</servlet-name>
+   		<url-pattern>/user</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+   		<servlet-name>cuisine</servlet-name>
+   		<url-pattern>/cuisine</url-pattern>
+	</servlet-mapping>
 
 <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

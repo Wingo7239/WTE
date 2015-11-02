@@ -16,74 +16,88 @@
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="com.yw"></context:component-scan>
 
-<!--  -->
+	<!-- TestBean -->
 	<bean id="test" class="com.yw.test.TestService">
 		<property name="name">
 			<value>萨比</value>
 		</property>
 	</bean>
 	
+	<!-- API Servlets -->
 	<bean id="userAPI" class="com.yw.api.UserAPI">
 		<property name="UsersServiceInter" ref="usersService">
 		</property>
 	</bean>
-	
+	<bean id="cuisineAPI" class="com.yw.api.CuisineAPI">
+		<property name="CuisineServiceInter" ref="cuisineService">
+		</property>
+	</bean>
+
+	<!-- Services -->
 	<bean id="usersService" class="com.yw.service.imp.UsersService">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="cuisineService" class="com.yw.service.imp.CuisineService">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
 
 	<!-- Hibernate Data Source -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/WTE?useUnicode=true&amp;characterEncoding=UTF-8"/>
-		<property name="username" value="root"/>
-		<property name="password" value="root"/>
-		
-		<property name="initialSize" value="3"/>
-		<property name="maxActive" value="500"/>
-		<property name="maxIdle" value="2"/>
-		<property name="minIdle" value="1"/>
-	</bean>
-	
-	
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-	<property name="dataSource">  
-            <ref bean="dataSource" />           
-        </property>  
-        
-        <property name="mappingResources">
-        	<list>
-        		<value>com/yw/domain/Users.hbm.xml</value>
-        		<value>com/yw/domain/Cuisine.hbm.xml</value>
-        		<value>com/yw/domain/Contains.hbm.xml</value>
-        		<value>com/yw/domain/Ingredients.hbm.xml</value>
-        		<value>com/yw/domain/Steps.hbm.xml</value>
-        		<value>com/yw/domain/Type.hbm.xml</value>
-        	</list>
-        </property>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/WTE?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
 
-        <property name="hibernateProperties">  
-            <props>  
-                <prop key="hibernate.show_sql">true</prop>  
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>    
-                <prop key="connection.useUnicode">true</prop>  
-                <prop key="connection.characterEncoding">UTF-8</prop>  
-                <prop key="current_session_context_class">thread</prop>  
-            </props>  
-        </property>  
-        </bean>
-        
-        
-         
-        <bean id="transactionManager"  
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager"  lazy-init="false">  
-        <property name="sessionFactory" ref="sessionFactory" />  
-        <property name="globalRollbackOnParticipationFailure" value="false" />          
-		</bean>
-		
-		<tx:annotation-driven transaction-manager="transactionManager"/>
-		
+		<property name="initialSize" value="3" />
+		<property name="maxActive" value="500" />
+		<property name="maxIdle" value="2" />
+		<property name="minIdle" value="1" />
+	</bean>
+
+	<!-- Hibernate sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="mappingResources">
+			<list>
+				<value>com/yw/domain/Users.hbm.xml</value>
+				<value>com/yw/domain/Cuisine.hbm.xml</value>
+				<value>com/yw/domain/Contains.hbm.xml</value>
+				<value>com/yw/domain/Ingredients.hbm.xml</value>
+				<value>com/yw/domain/Steps.hbm.xml</value>
+				<value>com/yw/domain/Type.hbm.xml</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="connection.useUnicode">true</prop>
+				<prop key="connection.characterEncoding">UTF-8</prop>
+				<prop key="current_session_context_class">thread</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- transactionManager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		lazy-init="false">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="globalRollbackOnParticipationFailure" value="false" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
 </beans>
    
     

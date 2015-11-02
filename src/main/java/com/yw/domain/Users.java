@@ -21,6 +21,10 @@ public class Users implements java.io.Serializable {
 	public Users() {
 	}
 
+	public Users(Integer uid) {
+		this.uid = uid;
+	}
+	
 	public Users(String name, String password, String gender) {
 		this.name = name;
 		this.password = password;

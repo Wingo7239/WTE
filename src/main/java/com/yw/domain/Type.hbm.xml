@@ -7,7 +7,7 @@
         <id name="tid" type="java.lang.Integer">
             <column name="tid" />
             <generator class="identity" />
-        </id>
+        </id> 
         <many-to-one name="cuisine" class="com.yw.domain.Cuisine" fetch="select">
             <column name="cid" />
         </many-to-one>
