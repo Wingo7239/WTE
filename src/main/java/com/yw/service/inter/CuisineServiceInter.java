@@ -8,4 +8,5 @@ import com.yw.domain.Cuisine;
 public interface CuisineServiceInter extends BasicServiceInter{
 
 	public Serializable addCuisine(Cuisine cuisine);
+	public void deleteCuisine(Cuisine cuisine);
 }

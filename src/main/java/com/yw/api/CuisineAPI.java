@@ -37,7 +37,7 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=UTF-8;pageEncoding=UTF-8");
-		response.getWriter().println("Hello Cuisine");
+//		response.getWriter().println("Hello Cuisine");
 		String json = handle((String) request.getParameter("action"), (String) request.getParameter("json"));
 		response.getWriter().println(json);
 	}
@@ -86,10 +86,10 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 				for (int i = 0; i < array.size(); i++) {
 					Ingredients in = new Ingredients((String) array.getJSONObject(i).get("name"));
 					in.setIid((Integer) array.getJSONObject(i).get("iid"));
-					// todo: correct this hql 
-					String hql="from Contains where ingredients =?and cuisine=?";
-					Object[] o = {in,cuisine};
-					Contains contain = (Contains) CuisineServiceInter.executeQurey(hql,o);
+
+					String hql = "from Contains where ingredients.iid =?and cuisine.cid=?";
+					Object[] o = { in.getIid(), cuisine.getCid() };
+					Contains contain = (Contains) CuisineServiceInter.uniqueQuery(hql, o);
 					contain.setIngredients(in);
 					if (in.getIid() == null) {
 						CuisineServiceInter.add(in);
@@ -124,16 +124,40 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 				res.put("msg", "success");
 
 			} else if ("r".equals(action)) {
-				Cuisine c = (Cuisine) CuisineServiceInter.findById(Cuisine.class, 16);
+				Integer id = (Integer) jsonobj.get("cid");
+				Cuisine c = (Cuisine) CuisineServiceInter.findById(Cuisine.class, id);
 				JsonUtil.addSimpleCuisine(res, c);
 
 			} else if ("d".equals(action)) {
 				Cuisine cuisine = (Cuisine) JSONObject.toBean(jsonobj, Cuisine.class);
-				CuisineServiceInter.executeDelete(cuisine);
+				if (cuisine.getCid() == null) {
+					res.put("status", "004");
+					res.put("msg", "Incomplete Parameters");
+				} else {
+
+					cuisine = (Cuisine) CuisineServiceInter.findById(Cuisine.class, cuisine.getCid());
+					java.util.Iterator i = cuisine.getContainses().iterator();
+					while (i.hasNext()) {
+						CuisineServiceInter.executeDelete(((Contains) i.next()).getIngredients());
+					}
+
+					CuisineServiceInter.executeDelete(cuisine);
+					res.put("status", "000");
+					res.put("msg", "success");
+				}
+			} else if ("p".equals(action)) {
+				String hql = "from Cuisine where users.uid =?";
+				Object[] o = {jsonobj.get("uid")};
+				List clist = CuisineServiceInter.executeQueryByPage(hql, o, (Integer)jsonobj.get("pageNow"), (Integer)jsonobj.get("pageSize"));
+				JSONArray array = new JSONArray();
+				JsonUtil.addCuisineList(array, clist);
 				res.put("status", "000");
 				res.put("msg", "success");
+				res.put("pageCount", CuisineServiceInter.getPageCount("select count(*)"+hql, o, (Integer)jsonobj.get("pageSize")));
+				res.put("cuisine", array);
 			} else {
-
+				res.put("status", "001");
+				res.put("msg", "Illegal Parameters");
 			}
 
 		} catch (Exception e) {

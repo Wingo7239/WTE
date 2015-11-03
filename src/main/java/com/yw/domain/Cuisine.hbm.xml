@@ -17,6 +17,9 @@
         <property name="image" type="string">
             <column name="image" length="64" />
         </property>
+        <property name="summary" type="string">
+            <column name="summary" length="256" />
+        </property>
         <set name="types" table="type" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="cid" />

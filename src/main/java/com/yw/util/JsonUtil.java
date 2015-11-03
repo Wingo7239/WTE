@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -101,6 +102,7 @@ public class JsonUtil {
 		jsonObject.put("cid", cuisine.getCid());
 		jsonObject.put("name", cuisine.getName());
 		jsonObject.put("image", cuisine.getImage());
+		jsonObject.put("summary", cuisine.getSummary());
 		JSONObject tmp = new JSONObject();
 		addSimpleUser(tmp, cuisine.getUsers());
 		jsonObject.put("users", tmp);
@@ -156,6 +158,25 @@ public class JsonUtil {
 		jsonObject.put("iid", contains.getIngredients().getIid());
 		jsonObject.put("ingredients", contains.getIngredients().getName());
 		jsonObject.put("quantity", contains.getQuantity());
+	}
+	
+	public static void addCuisineList(JSONArray jsonArray, List<Cuisine> list){
+		if(list == null || list.isEmpty())
+			return;
+		JSONObject jsonObject = new JSONObject();
+		for(Cuisine cuisine:list){		
+			jsonObject.put("cid", cuisine.getCid());
+			jsonObject.put("name", cuisine.getName());
+			jsonObject.put("image", cuisine.getImage());
+			jsonObject.put("summary", cuisine.getSummary());
+			JSONObject user = new JSONObject();
+			user.put("uid", cuisine.getUsers().getUid());
+			user.put("name", cuisine.getUsers().getName());
+			jsonObject.put("user", user);
+			jsonArray.add(jsonObject);
+			jsonObject.clear();
+		}
+		
 	}
 
 }

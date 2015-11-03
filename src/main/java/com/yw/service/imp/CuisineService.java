@@ -39,4 +39,9 @@ public class CuisineService extends BasicService implements CuisineServiceInter 
 		
 		return null;
 	}
+
+	public void deleteCuisine(Cuisine cuisine) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -3,6 +3,8 @@ package com.yw.baisc;
 import java.io.Serializable;
 import java.util.List;
 
+import com.yw.domain.Cuisine;
+
 public interface BasicServiceInter {
 
 	// find by ID
@@ -19,4 +21,6 @@ public interface BasicServiceInter {
 	public void executeDelete(Object object);
 	//Single result query
 	public Object uniqueQuery(String hql, Object[] parameters);
+	//getPageCount
+	public int getPageCount(String hql, Object[] parameters,int pageSize);
 }

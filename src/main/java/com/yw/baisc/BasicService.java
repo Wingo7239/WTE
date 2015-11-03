@@ -91,4 +91,12 @@ public abstract class BasicService implements BasicServiceInter {
 		return query.uniqueResult();
 	}
 
+	public int getPageCount(String hql, Object[] parameters, int pageSize) {
+		// TODO Auto-generated method stub
+		
+		Object object = this.uniqueQuery(hql, parameters);
+		int rowCount = Integer.parseInt(object.toString());
+		return (rowCount-1)/pageSize+1;
+	}
+
 }

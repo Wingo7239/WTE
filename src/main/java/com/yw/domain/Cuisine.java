@@ -13,6 +13,7 @@ public class Cuisine implements java.io.Serializable {
 	private Users users;
 	private String name;
 	private String image;
+	private String summary;
 	private Set types = new HashSet(0);
 	private Set containses = new HashSet(0);
 	private Set stepses = new HashSet(0);
@@ -24,11 +25,12 @@ public class Cuisine implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Cuisine(Users users, String name, String image, Set types, Set containses, Set stepses) {
+	public Cuisine(Users users, String name, String image, String summary, Set types, Set containses, Set stepses) {
 		this.users = users;
 		this.name = name;
 		this.image = image;
 		this.types = types;
+		this.summary = summary;
 		this.containses = containses;
 		this.stepses = stepses;
 	}
@@ -87,6 +89,14 @@ public class Cuisine implements java.io.Serializable {
 
 	public void setStepses(Set stepses) {
 		this.stepses = stepses;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 }
