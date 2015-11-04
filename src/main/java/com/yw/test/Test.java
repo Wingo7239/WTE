@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.yw.domain.Contains;
@@ -21,7 +22,10 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(JsonUtil.test());
+//		System.out.println(JsonUtil.test());
+		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
+		TestService ts  = (TestService) ac.getBean("test");
+		ts.sayHello();
 	}
 
 }

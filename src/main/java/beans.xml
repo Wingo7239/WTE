@@ -21,8 +21,10 @@
 		<property name="name">
 			<value>萨比</value>
 		</property>
+	</bean> 
+	<bean id="aoptest" class="com.yw.asp.TestAspect">
 	</bean>
-	
+
 	<!-- API Servlets -->
 	<bean id="userAPI" class="com.yw.api.UserAPI">
 		<property name="UsersServiceInter" ref="usersService">
@@ -37,7 +39,7 @@
 	<bean id="usersService" class="com.yw.service.imp.UsersService">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	
+
 	<bean id="cuisineService" class="com.yw.service.imp.CuisineService">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
@@ -97,6 +99,16 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+
+	<!-- AOP Test -->
+	<aop:config>
+		<aop:aspect ref="aoptest">
+			<aop:before method="before" pointcut="execution(* *.sayHello(..))" />
+		</aop:aspect>
+	</aop:config>
+
 
 </beans>
    

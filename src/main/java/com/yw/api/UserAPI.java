@@ -35,10 +35,15 @@ public class UserAPI extends GenericServlet implements Servlet {
 		super.init();
 
 	}
+	
+	public void sayHello(){
+		System.out.println("Hello User");
+	}
 
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 		String action = (String) req.getParameter("action");
 		System.out.println(action);
+		sayHello();
 		String json = handle((String) req.getParameter("action"), (String) req.getParameter("json"));
 		res.getWriter().println(json);
 
