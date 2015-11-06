@@ -16,6 +16,7 @@ import com.yw.service.inter.UsersServiceInter;
 import com.yw.util.JsonDateValueProcessor;
 import com.yw.util.JsonUtil;
 
+import net.sf.ezmorph.object.DateMorpher;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.JSONUtils;
@@ -62,6 +63,8 @@ public class UserAPI extends GenericServlet implements Servlet {
 	public String handle(String action, String json) throws RuntimeException {
 		JSONObject jsonobj = JSONObject.fromObject(json);
 		JSONObject res = new JSONObject();
+		JSONUtils.getMorpherRegistry().registerMorpher(
+		          new DateMorpher(new String[] { "yyyy-MM-dd" }));
 		try {
 			if ("c".equals(action)) {
 				Users user = (Users) JSONObject.toBean(jsonobj, Users.class);

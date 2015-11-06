@@ -94,7 +94,7 @@ public class JsonUtil {
 		jsonObject.put("name", user.getName());
 		jsonObject.put("gender", user.getGender());
 		jsonObject.put("avatar", user.getAvatar());
-		jsonObject.put("bitrhday", new SimpleDateFormat("yyyy-mm-dd").format(user.getBirthday()));
+		jsonObject.put("birthday", new SimpleDateFormat("YYYY-MM-dd").format(user.getBirthday()));
 	}
 
 	public static void addSimpleCuisine(JSONObject jsonObject, Cuisine cuisine) {
@@ -114,7 +114,7 @@ public class JsonUtil {
 			addSimpleContains(obj, (Contains) i.next());
 			jsonArray.add(obj);
 		}
-		jsonObject.put("containses", jsonArray);
+		jsonObject.put("ingredients", jsonArray);
 		jsonArray.clear();
 		
 		
@@ -124,7 +124,7 @@ public class JsonUtil {
 			addSimpleSteps(obj, (Steps) i.next());
 			jsonArray.add(obj);
 		}
-		jsonObject.put("stepses", jsonArray);
+		jsonObject.put("steps", jsonArray);
 		jsonArray.clear();
 		
 //		PriorityQueue<Type> pq = new PriorityQueue<Type>();
@@ -136,7 +136,7 @@ public class JsonUtil {
 			addSimpleTypes(obj, (Type) i.next());
 			jsonArray.add(obj);
 		}
-		jsonObject.put("types", jsonArray);
+		jsonObject.put("type", jsonArray);
 		
 		
 		
@@ -156,7 +156,7 @@ public class JsonUtil {
 
 	public static void addSimpleContains(JSONObject jsonObject, Contains contains){
 		jsonObject.put("iid", contains.getIngredients().getIid());
-		jsonObject.put("ingredients", contains.getIngredients().getName());
+		jsonObject.put("name", contains.getIngredients().getName());
 		jsonObject.put("quantity", contains.getQuantity());
 	}
 	

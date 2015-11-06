@@ -48,11 +48,11 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 		JSONObject res = new JSONObject();
 		try {
 			if ("c".equals(action)) {
-				Cuisine cuisine = (Cuisine) JSONObject.toBean(jsonobj.getJSONObject("Cuisine"), Cuisine.class);
+				Cuisine cuisine = (Cuisine) JSONObject.toBean(jsonobj.getJSONObject("cuisine"), Cuisine.class);
 				cuisine.setUsers(new Users(Integer.parseInt((String) jsonobj.get("uid"))));
 				cuisine.setCid((Integer) CuisineServiceInter.add(cuisine));
 
-				JSONArray array = jsonobj.getJSONArray("Ingredients");
+				JSONArray array = jsonobj.getJSONArray("ingredients");
 				for (int i = 0; i < array.size(); i++) {
 					Ingredients in = new Ingredients((String) array.getJSONObject(i).get("name"));
 					Contains contain = new Contains(in, cuisine, (String) array.getJSONObject(i).get("quantity"));
@@ -60,14 +60,14 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 					CuisineServiceInter.add(contain);
 				}
 
-				array = jsonobj.getJSONArray("Type");
+				array = jsonobj.getJSONArray("type");
 				for (int i = 0; i < array.size(); i++) {
 					Type type = (Type) JSONObject.toBean(array.getJSONObject(i), Type.class);
 					type.setCuisine(cuisine);
 					CuisineServiceInter.add(type);
 				}
 
-				array = jsonobj.getJSONArray("Steps");
+				array = jsonobj.getJSONArray("steps");
 				for (int i = 0; i < array.size(); i++) {
 					Steps step = (Steps) JSONObject.toBean(array.getJSONObject(i), Steps.class);
 					step.setCuisine(cuisine);
@@ -76,13 +76,14 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 
 				res.put("status", "000");
 				res.put("msg", "success");
+				res.put("cid", cuisine.getCid());
 
 			} else if ("u".equals(action)) {
-				Cuisine cuisine = (Cuisine) JSONObject.toBean(jsonobj.getJSONObject("Cuisine"), Cuisine.class);
+				Cuisine cuisine = (Cuisine) JSONObject.toBean(jsonobj.getJSONObject("cuisine"), Cuisine.class);
 				cuisine.setUsers(new Users(Integer.parseInt((String) jsonobj.get("uid"))));
 				CuisineServiceInter.executeUpdate(cuisine);
 
-				JSONArray array = jsonobj.getJSONArray("Ingredients");
+				JSONArray array = jsonobj.getJSONArray("ingredients");
 				for (int i = 0; i < array.size(); i++) {
 					Ingredients in = new Ingredients((String) array.getJSONObject(i).get("name"));
 					in.setIid((Integer) array.getJSONObject(i).get("iid"));
@@ -100,7 +101,7 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 					}
 				}
 
-				array = jsonobj.getJSONArray("Type");
+				array = jsonobj.getJSONArray("type");
 				for (int i = 0; i < array.size(); i++) {
 					Type type = (Type) JSONObject.toBean(array.getJSONObject(i), Type.class);
 					type.setCuisine(cuisine);
@@ -110,7 +111,7 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 						CuisineServiceInter.add(type);
 				}
 
-				array = jsonobj.getJSONArray("Steps");
+				array = jsonobj.getJSONArray("steps");
 				for (int i = 0; i < array.size(); i++) {
 					Steps step = (Steps) JSONObject.toBean(array.getJSONObject(i), Steps.class);
 					step.setCuisine(cuisine);
@@ -124,8 +125,9 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 				res.put("msg", "success");
 
 			} else if ("r".equals(action)) {
-				Integer id = (Integer) jsonobj.get("cid");
-				Cuisine c = (Cuisine) CuisineServiceInter.findById(Cuisine.class, id);
+				//todo
+				//参数不全的异常捕捉以及错误提示
+				Cuisine c = (Cuisine) CuisineServiceInter.findById(Cuisine.class, (Integer) jsonobj.get("cid"));
 				JsonUtil.addSimpleCuisine(res, c);
 
 			} else if ("d".equals(action)) {
@@ -160,7 +162,14 @@ public class CuisineAPI extends GenericServlet implements Servlet {
 				res.put("msg", "Illegal Parameters");
 			}
 
-		} catch (Exception e) {
+		}
+		catch(java.lang.NullPointerException e){
+			e.printStackTrace();
+			res.clear();
+			res.put("status", "001");
+			res.put("msg", "Illegal Parameters");
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			res.clear();
 			res.put("status", "999");
